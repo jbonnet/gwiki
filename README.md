@@ -2,7 +2,7 @@
 A Go (language)-based Wiki
 
 # Context
-[Instiki](http://instiki.org) has been my personal wiki for a number of years already (gee... ten, to be precise!). It has served its purpose, but now I need something better.
+[Instiki](https://golem.ph.utexas.edu/wiki/instiki/show/HomePage) has been my personal wiki for a number of years already (gee... ten, to be precise!). It has served its purpose, but now I need something better.
 
 # References
 
