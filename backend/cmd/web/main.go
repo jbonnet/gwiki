@@ -72,7 +72,7 @@ func main() {
   srv := &http.Server{
     Addr: *addr,
     ErrorLog: errorLog,
-    Handler: mux,
+    Handler: app.routes(), // Call the new app.routes() method
   }
 
 
