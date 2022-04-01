@@ -65,6 +65,10 @@ A Single Page Application (SPA), with three (main) sections:
 2. an **Editing** block, shown only when the 'new page' button of the Header is clicked, or when the user wants to edit a specific page (see below);
 3. a **List of Pages** block, where all pages should be listed (see below), sorted *desc* by updating date (most recent change on top);
 
+See below a picture of this page organization:
+
+![SPA blocks](./docs/SPA_blocks.png)
+
 Events flowing on top of this structure would be the following:
 
 1. the default focus woul be the **List of Pages**;
