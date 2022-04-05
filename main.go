@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+  "log"
+  "net/http"
+)
 
 func main(){
-  fmt.Println("Just started!")
+  mux := http.NewServeMux()
+  mux.HandleFunc("/", home)
+  mux.HandleFunc("/pages", showPage)
+  mux.HandleFunc("/pages/create", createPage)
+  log.Println("Starting server on :4000")
+  err := http.ListenAndServe(":4000", mux)
+  log.Fatal(err)
 }
