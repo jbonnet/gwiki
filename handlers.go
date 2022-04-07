@@ -1,16 +1,17 @@
+// GWiki handlers
+// @José Bonnet
 package main
 
 import (
   "fmt"
   "html/template"
-  "log"
   "net/http"
 )
 
 // home is a handler that simply outputs a relevant sentence
-func home(w http.ResponseWriter, r *http.Request) {
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
   if r.URL.Path != "/" {
-    http.NotFound(w, r)
+    app.notFound(w)
     return
   }
 
@@ -19,39 +20,37 @@ func home(w http.ResponseWriter, r *http.Request) {
     "./ui/html/base.layout.tmpl",
     "./ui/html/footer.partial.tmpl",
   }
+
   ts, err := template.ParseFiles(files...)
   if err != nil {
-    log.Println(err.Error())
-    http.Error(w, "Internal Server Error", 500)
+    app.serverError(w, err)
     return
   }
+
   // We then use the Execute() method on the template set to write the template
   // content as the response body. The last parameter to Execute() represents any
   // dynamic data that we want to pass in, which for now we'll leave as nil.
   err = ts.Execute(w, nil)
   if err != nil {
-    log.Println(err.Error())
-    http.Error(w, "Internal Server Error", 500)
+    app.serverError(w, err)
   }
 }
 
 // Add a showPage handler function.
-func showPage(w http.ResponseWriter, r *http.Request) {
+func (app *application) showPage(w http.ResponseWriter, r *http.Request) {
   slug := r.URL.Query().Get("slug")
   if slug == "" {
-    http.NotFound(w, r)
+    app.notFound(w)
     return
   }
   fmt.Fprintf(w, "Display a specific page with slug '%s'...", slug)
 }
 
 // Add a createPage handler function.
-func createPage(w http.ResponseWriter, r *http.Request) {
+func (app *application) createPage(w http.ResponseWriter, r *http.Request) {
   if r.Method != http.MethodPost {
     w.Header().Set("Allow", http.MethodPost)
-    // w.WriteHeader(405)
-    // w.Write([]byte("Method Not Allowed"))
-    http.Error(w, "Method Not Allowed", 405)
+    app.clientError(w, http.StatusMethodNotAllowed)
     return
   }
   w.Write([]byte("Create a new page..."))
