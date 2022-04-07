@@ -25,7 +25,13 @@ func main(){
   fileServer := http.FileServer(http.Dir("./ui/static/"))
   mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
+  // Merge all configs into one single object, allowing for HTTP logging to go to the same log as the rest
+  srv := &http.Server{
+    Addr:     *addr,
+    ErrorLog: errorLog,
+    Handler:  mux,
+  }
   infoLog.Printf("Starting server on %s...", *addr)
-  err := http.ListenAndServe(*addr, mux)
+  err := srv.ListenAndServe()
   errorLog.Fatal(err)
 }
